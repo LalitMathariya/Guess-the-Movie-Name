@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Scramble Game</title>
+	<link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+
+	<header class="jumbotron">
+		<div class="header">
+			<h1>Guess the Word Game</h1>
+		</div>
+	</header>
+
+		<div class="container-fluid">
+			<div class=" container-sm game-area">
+				<h3 class="msg"></h3>
+				<input type="text" class="hidden">
+				<button class="btn" style="{color: #eb4d4b}">Click here to Start</button>
+			</div>
+		</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+
+<script>
+	const msg= document.querySelector('.msg');
+	const guess = document.querySelector('input');
+	const btn = document.querySelector('.btn');
+	let play=false;
+	let newWords ="";
+	let randWords = "";
+	let sWords= ["Kaminey","Fanaa","Sholay","Herapheri","Queen","Taarezameenpar","Pari","Paanch","3idiots","Bahubali","Kgf", "Dilbechara"];
+
+
+	const createNewWords = ()=>{
+		let ranNum = Math.floor(Math.random()*sWords.length);
+		let newTempSwords = sWords[ranNum];
+		return newTempSwords;
+	}
+
+	const scrambleWords = (arr) => {
+		for (var i = arr.length-1; i>0; i--) {
+			let temp = arr[i];			
+			let j = Math.floor(Math.random()*(i+1));			
+			arr[i] = arr[j];
+			arr[j] = temp;
+				}
+			return arr;
+
+	}
+
+ 	btn.addEventListener('click', function(){
+	if(!play){
+		play = true;
+		btn.innerHTML="Guess";
+		guess.classList.toggle('hidden');
+		newWords = createNewWords();
+		randWords=scrambleWords(newWords.split("")).join("");
+		msg.innerHTML=`Guess the Movie Name : ${randWords}`;
+		}
+	else{
+		let tempWord=guess.value;
+		if(tempWord===newWords){
+			play = false;
+			msg.innerHTML = `Awesome It's correct. It is ${newWords} `;
+			btn.innerHTML="continue";
+			guess.classList.toggle('hidden');
+			guess.value="";
+		}
+		else{
+			play= false;
+			msg.innerHTML=`Sorry Boss. It's Incorrect. Please! try again ${randWords}`;
+			btn.innerHTML="Start Again";
+			guess.classList.toggle('hidden');
+			guess.value="";		
+		}
+	}
+	})
+
+
+</script>
+</body>
+</html>
